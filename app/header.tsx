@@ -19,6 +19,7 @@ export default function Header() {
         <Link href="/music" className="hover:text-pink-400 block">Music</Link>
         <Link href="/about" className="hover:text-pink-400 block">About</Link>
         <Link href="/support" className="hover:text-pink-400 block">Support</Link>
+        <Link href="/join" className="hover:text-pink-400 block">Join</Link>
       </nav>
     </header>
   );
