@@ -8,7 +8,7 @@ export default function Header() {
 
   return (
     <header className="bg-gradient-to-r from-purple-800 via-blue-700 to-red-700 text-white p-4 flex items-center justify-between">
-      <Link href="/" className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-600">TUNESTREAM</Link>
+      <Link href="/" className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-600">Poplir</Link>
 
       <div className="md:hidden" onClick={() => setIsOpen(!isOpen)}>
         {isOpen ? <X className="w-8 h-8" /> : <Menu className="w-8 h-8" />}
