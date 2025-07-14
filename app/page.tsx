@@ -1,120 +1,44 @@
-'use client';
+import Header from "./header";
+import Footer from "./footer";
 
-import Header from './header';
-import Footer from './footer';
-import Image from 'next/image';
-import { useState } from 'react';
-import { Dialog } from '@headlessui/react';
-
-export default function Home() {
-  const [selectedStory, setSelectedStory] = useState<string | null>(null);
-  const [isOpen, setIsOpen] = useState(false);
-
-  const streamers = [
-    '/streamer1.jpg',
-    '/streamer2.jpg',
-    '/streamer3.jpg',
-    '/streamer4.jpg',
-    '/streamer5.jpg',
-    '/streamer6.jpg',
-  ];
-
-  const trendingContent = [
-    {
-      id: 1,
-      title: 'DJ Night Live',
-      thumbnail: '/night.jpg',
-    },
-    {
-      id: 2,
-      title: 'Lo-Fi Chill Beats',
-      thumbnail: '/chill.jpg',
-    },
-    {
-      id: 3,
-      title: 'Guitar Solo Session',
-      thumbnail: '/guitar.jpg',
-    },
-    {
-      id: 4,
-      title: 'Pop Music Live',
-      thumbnail: '/pop.jpg',
-    },
-  ];
-
-  const openStory = (img: string) => {
-    setSelectedStory(img);
-    setIsOpen(true);
-  };
-
+export default function HomePage() {
   return (
-    <div className="min-h-screen bg-white dark:bg-[#0e0e0e] text-black dark:text-white flex flex-col">
+    <div className="bg-gradient-to-b from-[#0f011c] to-[#1a052e] text-white min-h-screen flex flex-col">
       <Header />
+      <main className="flex-1 p-8">
+        <section className="text-center space-y-6">
+          <h1 className="text-5xl font-bold bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent">Tune in to the Beat of the Game</h1>
+          <button className="mt-4 px-6 py-3 bg-gradient-to-r from-pink-500 to-red-500 rounded-full text-lg font-semibold hover:scale-105 transition">Get Started</button>
+        </section>
 
-      {/* Streamers Stories */}
-      <section className="flex overflow-x-auto gap-4 px-4 py-6 border-b border-gray-300 dark:border-gray-700">
-        {streamers.map((img, i) => (
-          <button
-            key={i}
-            className="flex-shrink-0 flex flex-col items-center focus:outline-none"
-            onClick={() => openStory(img)}
-          >
-            <Image
-              src={img}
-              alt={`Streamer ${i + 1}`}
-              width={60}
-              height={60}
-              className="rounded-full border-2 border-pink-500"
-            />
-            <span className="text-xs mt-1">Streamer {i + 1}</span>
-          </button>
-        ))}
-      </section>
-
-      {/* Trending Content */}
-      <main className="flex-1 p-6 sm:p-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {trendingContent.map((content) => (
-          <div key={content.id} className="bg-gray-100 dark:bg-[#1e1e1e] rounded-xl overflow-hidden shadow-md">
-            <Image
-              src={content.thumbnail}
-              alt={content.title}
-              width={500}
-              height={300}
-              className="w-full h-48 object-cover"
-            />
-            <div className="p-4">
-              <h3 className="text-base font-semibold">{content.title}</h3>
-              <p className="text-sm text-gray-500 dark:text-gray-400">
-                Trending now on Tunestream
-              </p>
-            </div>
+        <section className="mt-12">
+          <h2 className="text-3xl mb-6 text-pink-400">Categories</h2>
+          <div className="flex gap-4 flex-wrap justify-center">
+            <div className="bg-purple-900 px-6 py-3 rounded-lg">MOBA</div>
+            <div className="bg-purple-900 px-6 py-3 rounded-lg">FPS</div>
+            <div className="bg-purple-900 px-6 py-3 rounded-lg">Pop</div>
+            <div className="bg-purple-900 px-6 py-3 rounded-lg">EDM</div>
           </div>
-        ))}
+        </section>
+
+        <section className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="bg-gradient-to-tr from-[#1a052e] via-purple-800 to-[#0f011c] p-6 rounded-xl flex flex-col items-center">
+            <img src="/gamer-avatar.png" alt="Gamer" className="w-32 h-32 rounded-full mb-4" />
+            <p className="text-xl font-bold">Ninja</p>
+            <p className="text-sm text-gray-300">Streaming</p>
+          </div>
+          <div className="bg-gradient-to-tr from-[#1a052e] via-purple-800 to-[#0f011c] p-6 rounded-xl flex flex-col items-center">
+            <div className="w-32 h-32 bg-purple-700 rounded-full mb-4 flex items-center justify-center">
+              <svg className="w-16 h-16 text-pink-400" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M3 10h2v4H3v-4zm3 0h2v4H6v-4zm3 0h2v4H9v-4zm3 0h2v4h-2v-4zm3 0h2v4h-2v-4zm3 0h2v4h-2v-4zm3 0h2v4h-2v-4z"/>
+              </svg>
+            </div>
+            <p className="text-xl font-bold">Cool Vibes</p>
+            <p className="text-sm text-gray-300">Artist: Alan Walker</p>
+          </div>
+        </section>
       </main>
-
       <Footer />
-
-      {/* Story Modal */}
-      <Dialog open={isOpen} onClose={() => setIsOpen(false)} className="relative z-50">
-        <div className="fixed inset-0 bg-black/70" aria-hidden="true" />
-        <div className="fixed inset-0 flex items-center justify-center p-4">
-          <Dialog.Panel className="bg-white dark:bg-[#1a1a1a] p-6 rounded-xl max-w-sm w-full">
-            <Image
-              src={selectedStory || ''}
-              alt="Story"
-              width={400}
-              height={400}
-              className="rounded-lg object-cover w-full h-80"
-            />
-            <button
-              onClick={() => setIsOpen(false)}
-              className="mt-4 w-full bg-pink-500 text-white py-2 rounded hover:bg-pink-600 transition"
-            >
-              Close
-            </button>
-          </Dialog.Panel>
-        </div>
-      </Dialog>
     </div>
   );
 }
