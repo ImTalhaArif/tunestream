@@ -90,7 +90,7 @@ export default function HomePage() {
               autoPlay
               className="rounded-xl shadow-lg max-w-full w-[640px]"
             >
-              <source src="/ninja.mp4" type="video/mp4" />
+              <source src="/ninja-stream.mp4" type="video/mp4" />
               Your browser does not support the video tag.
             </video>
           </div>
@@ -105,7 +105,7 @@ export default function HomePage() {
               autoPlay
               className="rounded-xl shadow-lg w-full max-w-md"
             >
-              <source src="/alanwalker.mp3" type="audio/mp3" />
+              <source src="/cool-vibes.mp3" type="audio/mp3" />
               Your browser does not support the audio element.
             </audio>
           </div>
