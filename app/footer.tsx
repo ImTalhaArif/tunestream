@@ -1,7 +1,8 @@
 export default function Footer() {
   return (
-    <footer className="w-full text-center py-6 border-t border-gray-200 dark:border-gray-700 text-sm text-gray-600 dark:text-gray-400 bg-white dark:bg-[#121212]">
-      © {new Date().getFullYear()} EvoDynamics. All rights reserved.
+    <footer className="bg-gradient-to-r from-purple-800 via-blue-700 to-red-700 text-white text-center py-6 mt-8">
+      <p className="text-lg">&copy; 2025 EvoDynamics. All rights reserved.</p>
+      <p className="text-sm text-pink-300">Powered by EvoDynamics Creative Studio</p>
     </footer>
   );
 }
