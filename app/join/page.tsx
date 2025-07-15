@@ -24,7 +24,7 @@ export default function JoinPage() {
 
     try {
       const nameFromEmail = formData.email.split("@")[0];
-      const userPayload = {
+      const payload = {
         TableName: "tbl_user",
         Item: {
           email: formData.email,
@@ -35,13 +35,19 @@ export default function JoinPage() {
         },
       };
 
-      const res = await fetch("https://jkeawlulszxxr42r2uuntuorvq0ieoot.lambda-url.eu-north-1.on.aws/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(userPayload),
-      });
+      const res = await fetch(
+        "https://jkeawlulszxxr42r2uuntuorvq0ieoot.lambda-url.eu-north-1.on.aws/",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            action: "create", // this is what your Lambda now expects
+            payload,
+          }),
+        }
+      );
 
       if (!res.ok) {
         throw new Error("Signup failed. Please try again.");
@@ -49,12 +55,15 @@ export default function JoinPage() {
 
       const result = await res.json();
 
-      // Save a simple login token
-      localStorage.setItem("tunestream_token", JSON.stringify({
-        email: formData.email,
-        name: formData.name || nameFromEmail,
-        timestamp: Date.now()
-      }));
+      // Save token (for 12-hour session)
+      localStorage.setItem(
+        "tunestream_token",
+        JSON.stringify({
+          email: formData.email,
+          name: formData.name || nameFromEmail,
+          timestamp: Date.now(),
+        })
+      );
 
       alert("Account created successfully!");
       router.push("/dashboard");
