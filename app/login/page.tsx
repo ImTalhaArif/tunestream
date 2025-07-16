@@ -23,9 +23,12 @@ export default function LoginPage() {
 
     try {
       const fetchPayload = {
-        TableName: "tbl_user",
-        Key: {
-          email: formData.email,
+        action: "fetch",
+        payload: {
+          TableName: "tbl_user",
+          Key: {
+            email: formData.email,
+          },
         },
       };
 
@@ -37,17 +40,19 @@ export default function LoginPage() {
         body: JSON.stringify(fetchPayload),
       });
 
-      if (!response.ok) {
-        throw new Error("Failed to connect to server.");
-      }
-
       const result = await response.json();
-      const user = result?.Item;
 
-      if (!user || user.password !== formData.password) {
-        throw new Error("Invalid email or password.");
+      if (!response.ok || !result.Item) {
+        throw new Error("User not found.");
       }
 
+      const user = result.Item;
+
+      if (user.password !== formData.password) {
+        throw new Error("Incorrect password.");
+      }
+
+      // Save token with expiry timestamp
       localStorage.setItem(
         "tunestream_token",
         JSON.stringify({
@@ -59,8 +64,9 @@ export default function LoginPage() {
 
       alert("Login successful!");
       router.push("/dashboard");
+
     } catch (err: any) {
-      alert(err.message || "Something went wrong.");
+      alert(err.message || "Login failed.");
     } finally {
       setLoading(false);
     }
