@@ -79,7 +79,7 @@ export default function Header() {
           <>
             <button
               onClick={handleLogout}
-              className="hover:text-red-300 block focus:outline-none"
+              className="hover:text-red-300 block focus:outline-none" style={{marginTop: "-17px"}}
             >
               Logout
             </button>
