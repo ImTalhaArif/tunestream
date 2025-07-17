@@ -43,7 +43,7 @@ export default function JoinPage() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            action: "create", // this is what your Lambda now expects
+            action: "create",
             payload,
           }),
         }
@@ -55,7 +55,6 @@ export default function JoinPage() {
 
       const result = await res.json();
 
-      // Save token (for 12-hour session)
       localStorage.setItem(
         "tunestream_token",
         JSON.stringify({
@@ -67,7 +66,6 @@ export default function JoinPage() {
 
       alert("Account created successfully!");
       router.push("/dashboard");
-
     } catch (error: any) {
       alert(error.message || "Something went wrong.");
     } finally {
@@ -76,9 +74,9 @@ export default function JoinPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#0f011c] to-[#1a052e] text-white flex items-center justify-center p-6">
-      <div className="w-full max-w-md bg-gradient-to-br from-purple-900 via-[#1a052e] to-[#0f011c] p-8 rounded-xl shadow-xl">
-        <h2 className="text-3xl font-bold mb-6 text-center text-white">Join Poplir</h2>
+    <div className="min-h-screen bg-gradient-to-b from-black via-[#0f0f0f] to-[#1a1a1a] text-white flex items-center justify-center p-6">
+      <div className="w-full max-w-md bg-[#111] p-8 rounded-xl shadow-xl border border-[#222]">
+        <h2 className="text-3xl font-bold mb-6 text-center text-green-400">Join Poplir</h2>
 
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
@@ -88,7 +86,7 @@ export default function JoinPage() {
               id="name"
               type="text"
               placeholder="Optional"
-              className="w-full px-4 py-2 rounded-lg bg-[#1a052e] border border-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="w-full px-4 py-2 rounded-lg bg-[#1a1a1a] border border-[#333] focus:outline-none focus:ring-2 focus:ring-green-500"
               value={formData.name}
               onChange={handleChange}
             />
@@ -101,7 +99,7 @@ export default function JoinPage() {
               name="email"
               id="email"
               type="email"
-              className="w-full px-4 py-2 rounded-lg bg-[#1a052e] border border-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="w-full px-4 py-2 rounded-lg bg-[#1a1a1a] border border-[#333] focus:outline-none focus:ring-2 focus:ring-green-500"
               value={formData.email}
               onChange={handleChange}
             />
@@ -114,7 +112,7 @@ export default function JoinPage() {
               name="password"
               id="password"
               type="password"
-              className="w-full px-4 py-2 rounded-lg bg-[#1a052e] border border-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="w-full px-4 py-2 rounded-lg bg-[#1a1a1a] border border-[#333] focus:outline-none focus:ring-2 focus:ring-green-500"
               value={formData.password}
               onChange={handleChange}
             />
@@ -126,7 +124,7 @@ export default function JoinPage() {
               name="phone"
               id="phone"
               type="tel"
-              className="w-full px-4 py-2 rounded-lg bg-[#1a052e] border border-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="w-full px-4 py-2 rounded-lg bg-[#1a1a1a] border border-[#333] focus:outline-none focus:ring-2 focus:ring-green-500"
               value={formData.phone}
               onChange={handleChange}
             />
@@ -135,7 +133,7 @@ export default function JoinPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-2 bg-gradient-to-r from-pink-500 to-red-500 rounded-full text-lg font-semibold hover:scale-105 transition"
+            className="w-full py-2 bg-green-600 hover:bg-green-500 disabled:opacity-60 rounded-full text-lg font-semibold transition duration-200"
           >
             {loading ? "Signing Up..." : "Sign Up"}
           </button>
@@ -145,7 +143,7 @@ export default function JoinPage() {
           <p className="text-sm text-gray-400 mb-2">Already registered?</p>
           <button
             onClick={() => router.push("/login")}
-            className="w-full py-2 rounded-full bg-blue-600 hover:bg-blue-500 text-white text-sm font-medium transition"
+            className="w-full py-2 rounded-full bg-[#333] hover:bg-[#444] text-white text-sm font-medium transition"
           >
             Login Instead
           </button>

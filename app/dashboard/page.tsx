@@ -5,6 +5,18 @@ import { useRouter } from 'next/navigation';
 import Header from '../header';
 import Footer from '../footer';
 
+const categories = ['Gaming', 'Esports', 'IRL', 'Music'];
+const fakeUsers = [
+  { name: "ShadowHawk", image: "/avatars/u1.jpg" },
+  { name: "PixelNinja", image: "/avatars/u2.jpg" },
+  { name: "CodeBard", image: "/avatars/u3.jpg" },
+  { name: "GigaVibe", image: "/avatars/u4.jpg" },
+  { name: "StreamQueen", image: "/avatars/u5.jpg" },
+];
+
+const recommendedChannels = ["xQc", "Amouranth", "AdinRoss"];
+const followedChannels = ["DrDisrespect", "Myth", "Nadeshot"];
+
 export default function DashboardPage() {
   const router = useRouter();
   const [user, setUser] = useState<any>(null);
@@ -14,21 +26,14 @@ export default function DashboardPage() {
     try {
       const res = await fetch("https://jkeawlulszxxr42r2uuntuorvq0ieoot.lambda-url.eu-north-1.on.aws/", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           action: "fetch",
-          payload: {
-            TableName: "tbl_user",
-            Key: { email },
-          },
+          payload: { TableName: "tbl_user", Key: { email } },
         }),
       });
 
-      if (!res.ok) {
-        throw new Error("Failed to fetch user data");
-      }
+      if (!res.ok) throw new Error("Failed to fetch user data");
 
       const result = await res.json();
       if (result.Item) {
@@ -65,44 +70,72 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-b from-[#0f011c] to-[#1a052e] text-white">
+    <div className="min-h-screen flex flex-col bg-[#0f0f0f] text-white">
       <Header />
 
-      <main className="flex-1 px-4 md:px-12 py-8">
-        <h1 className="text-3xl md:text-4xl font-bold mb-4">Welcome, {user.name || user.email} 👋</h1>
-
-        {/* Stories */}
-        <div className="mb-8">
-          <h2 className="text-xl font-semibold mb-2">Stories</h2>
-          <div className="flex space-x-4 overflow-x-auto scrollbar-hide">
-            {['/story1.jpg', '/story2.jpg', '/story3.jpg', '/story4.jpg'].map((src, index) => (
-              <div
-                key={index}
-                className="w-20 h-20 rounded-full border-4 border-pink-500 cursor-pointer hover:scale-105 transition"
-                onClick={() => setShowStory(src)}
-              >
-                <img src={src} alt={`story-${index}`} className="w-full h-full object-cover rounded-full" />
-              </div>
-            ))}
+      <div className="flex flex-1">
+        {/* Sidebar */}
+        <aside className="hidden md:block w-64 bg-[#1a1a1a] px-6 py-6 space-y-6 border-r border-gray-800">
+          <div>
+            <h2 className="text-lg font-bold mb-2 text-green-400">Recommended Channels</h2>
+            <ul className="space-y-2">
+              {recommendedChannels.map((ch, i) => (
+                <li key={i} className="hover:text-green-400 transition cursor-pointer">{ch}</li>
+              ))}
+            </ul>
           </div>
-        </div>
+          <div>
+            <h2 className="text-lg font-bold mb-2 text-green-400">Followed Channels</h2>
+            <ul className="space-y-2">
+              {followedChannels.map((ch, i) => (
+                <li key={i} className="hover:text-green-400 transition cursor-pointer">{ch}</li>
+              ))}
+            </ul>
+          </div>
+        </aside>
 
-        {/* Recommended Videos */}
-        <div>
-          <h2 className="text-xl font-semibold mb-4">Recommended for You</h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {[...Array(8)].map((_, idx) => (
-              <div key={idx} className="bg-[#1a052e] rounded-lg overflow-hidden shadow-lg hover:scale-105 transition">
-                <img src={`/video${(idx % 4) + 1}.jpg`} alt="Video" className="w-full h-36 object-cover" />
-                <div className="p-3">
-                  <p className="text-sm font-semibold mb-1">Cool Video {idx + 1}</p>
-                  <p className="text-xs text-gray-400">by Creator {idx + 1}</p>
+        {/* Main Content */}
+        <main className="flex-1 px-4 md:px-8 py-8">
+          <h1 className="text-3xl font-bold mb-6 text-white">Welcome, {user.name || user.email} 👋</h1>
+
+          {/* Stories */}
+          <div className="mb-10">
+            <h2 className="text-xl font-semibold mb-3">Stories</h2>
+            <div className="flex space-x-4 overflow-x-auto scrollbar-hide">
+              {['/story1.jpg', '/story2.jpg', '/story3.jpg'].map((src, index) => (
+                <div
+                  key={index}
+                  className="w-20 h-20 rounded-full border-4 border-green-500 cursor-pointer hover:scale-105 transition"
+                  onClick={() => setShowStory(src)}
+                >
+                  <img src={src} alt={`story-${index}`} className="w-full h-full object-cover rounded-full" />
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
-      </main>
+
+          {/* Category Sections */}
+          {categories.map((cat, i) => (
+            <div key={i} className="mb-10">
+              <h2 className="text-2xl font-semibold mb-4 text-white">{cat} Streams</h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-5">
+                {fakeUsers.map((user, idx) => (
+                  <div key={idx} className="bg-[#1f1f1f] rounded-lg overflow-hidden shadow hover:scale-105 transition duration-200">
+                    <img src={`/streams/stream${(idx % 4) + 1}.jpg`} alt="stream" className="w-full h-40 object-cover" />
+                    <div className="p-3">
+                      <div className="flex items-center space-x-3 mb-2">
+                        <img src={user.image} alt={user.name} className="w-8 h-8 rounded-full" />
+                        <p className="text-sm font-semibold">{user.name}</p>
+                      </div>
+                      <p className="text-xs text-gray-400">Live now • 2.3K viewers</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </main>
+      </div>
 
       <Footer />
 

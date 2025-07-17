@@ -52,7 +52,6 @@ export default function LoginPage() {
         throw new Error("Incorrect password.");
       }
 
-      // Save token with expiry timestamp
       localStorage.setItem(
         "tunestream_token",
         JSON.stringify({
@@ -73,32 +72,32 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#0f011c] to-[#1a052e] text-white flex items-center justify-center p-6">
-      <div className="w-full max-w-md bg-gradient-to-br from-purple-900 via-[#1a052e] to-[#0f011c] p-8 rounded-xl shadow-xl">
+    <div className="min-h-screen bg-[#0e0e10] text-white flex items-center justify-center p-6">
+      <div className="w-full max-w-md bg-[#1d1f22] border border-[#2c2f33] p-8 rounded-xl shadow-md">
         <h2 className="text-3xl font-bold mb-6 text-center text-white">Login to Poplir</h2>
 
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
-            <label htmlFor="email" className="block mb-1 text-sm text-gray-300">Email</label>
+            <label htmlFor="email" className="block mb-1 text-sm text-gray-400">Email</label>
             <input
               required
               name="email"
               id="email"
               type="email"
-              className="w-full px-4 py-2 rounded-lg bg-[#1a052e] border border-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="w-full px-4 py-2 rounded-md bg-[#121315] border border-[#2c2f33] text-white focus:outline-none focus:ring-2 focus:ring-[#00ff80]"
               value={formData.email}
               onChange={handleChange}
             />
           </div>
 
           <div>
-            <label htmlFor="password" className="block mb-1 text-sm text-gray-300">Password</label>
+            <label htmlFor="password" className="block mb-1 text-sm text-gray-400">Password</label>
             <input
               required
               name="password"
               id="password"
               type="password"
-              className="w-full px-4 py-2 rounded-lg bg-[#1a052e] border border-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="w-full px-4 py-2 rounded-md bg-[#121315] border border-[#2c2f33] text-white focus:outline-none focus:ring-2 focus:ring-[#00ff80]"
               value={formData.password}
               onChange={handleChange}
             />
@@ -107,7 +106,7 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-2 bg-gradient-to-r from-green-400 to-blue-500 rounded-full text-lg font-semibold hover:scale-105 transition"
+            className="w-full py-2 bg-[#00ff80] text-black rounded-md font-semibold hover:opacity-90 transition"
           >
             {loading ? "Logging in..." : "Login"}
           </button>
@@ -117,7 +116,7 @@ export default function LoginPage() {
           <p className="text-sm text-gray-400 mb-2">Don't have an account?</p>
           <button
             onClick={() => router.push("/join")}
-            className="w-full py-2 rounded-full bg-pink-600 hover:bg-pink-500 text-white text-sm font-medium transition"
+            className="w-full py-2 rounded-md bg-[#1a1c1f] border border-[#2c2f33] text-[#00ff80] text-sm font-medium hover:bg-[#2c2f33] transition"
           >
             Join Now
           </button>
