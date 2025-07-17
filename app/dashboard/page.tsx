@@ -121,7 +121,7 @@ export default function DashboardPage() {
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-5">
                 {fakeUsers.map((user, idx) => (
                   <div key={idx} className="bg-[#1f1f1f] rounded-lg overflow-hidden shadow hover:scale-105 transition duration-200">
-                    <img src={`/streams/thumb${(idx % 4) + 1}.jpg`} alt="stream" className="w-full h-40 object-cover" />
+                    <img src={`/thumb${(idx % 4) + 1}.jpg`} alt="stream" className="w-full h-40 object-cover" />
                     <div className="p-3">
                       <div className="flex items-center space-x-3 mb-2">
                         <img src={user.image} alt={user.name} className="w-8 h-8 rounded-full" />
