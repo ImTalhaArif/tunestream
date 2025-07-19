@@ -114,10 +114,10 @@ export default function Header() {
                     Following
                   </Link>
                   <Link
-                    href="/new-post"
+                    href="/new"
                     className="block px-4 py-2 hover:bg-[#2a2a2a] transition"
                   >
-                    New Post
+                    Add New
                   </Link>
                 </div>
               )}
