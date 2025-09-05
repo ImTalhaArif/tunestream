@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
-import Header from "./header"; // your Poplir header
-import Footer from "./footer"; // your Poplir footer
+import { useRef, useState, useEffect } from "react";
+import Header from "./header";
+import Footer from "./footer";
 
 function Button({
   children,
@@ -49,9 +49,43 @@ const demoPost = {
 };
 
 export default function HomePage() {
-  const [playing, setPlaying] = useState(false);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  const [isVideoPlaying, setIsVideoPlaying] = useState(false);
+  const [videoProgress, setVideoProgress] = useState(0);
+
+  const [isAudioPlaying, setIsAudioPlaying] = useState(false);
+  const [audioProgress, setAudioProgress] = useState(0);
+
   const [calendarOpen, setCalendarOpen] = useState(false);
   const [message, setMessage] = useState("");
+
+  // Track video progress
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    const updateProgress = () => {
+      setVideoProgress((video.currentTime / video.duration) * 100 || 0);
+    };
+    video.addEventListener("timeupdate", updateProgress);
+
+    return () => video.removeEventListener("timeupdate", updateProgress);
+  }, []);
+
+  // Track audio progress
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    const updateProgress = () => {
+      setAudioProgress((audio.currentTime / audio.duration) * 100 || 0);
+    };
+    audio.addEventListener("timeupdate", updateProgress);
+
+    return () => audio.removeEventListener("timeupdate", updateProgress);
+  }, []);
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
@@ -59,7 +93,7 @@ export default function HomePage() {
       <Header />
 
       <main className="flex-grow p-6 space-y-10 max-w-5xl mx-auto">
-        <h1 className="text-3xl font-bold text-center">Poplir V2 – Demo Experience</h1>
+        <h1 className="text-3xl font-bold text-center">Poplir V2 – Premium Demo</h1>
 
         {/* Live Streaming */}
         <Card>
@@ -67,11 +101,41 @@ export default function HomePage() {
           <p className="text-sm text-gray-500">{demoStream.title}</p>
           <div className="relative w-full aspect-video rounded-xl overflow-hidden shadow-md bg-black">
             <video
+              ref={videoRef}
               src={demoStream.videoUrl}
-              controls
               className="w-full h-full object-cover"
               poster="https://dummyimage.com/1280x720/000/fff&text=Poplir+Stream"
             />
+            {/* Custom Controls */}
+            <div className="absolute bottom-0 left-0 right-0 bg-black/60 p-3 flex items-center gap-3">
+              <button
+                onClick={() => {
+                  const video = videoRef.current;
+                  if (!video) return;
+                  if (isVideoPlaying) {
+                    video.pause();
+                    setIsVideoPlaying(false);
+                  } else {
+                    video.play();
+                    setIsVideoPlaying(true);
+                  }
+                }}
+                className="text-white text-lg"
+              >
+                {isVideoPlaying ? "⏸" : "▶"}
+              </button>
+              <input
+                type="range"
+                value={videoProgress}
+                onChange={(e) => {
+                  const video = videoRef.current;
+                  if (video) {
+                    video.currentTime = (parseFloat(e.target.value) / 100) * video.duration;
+                  }
+                }}
+                className="flex-grow accent-red-500"
+              />
+            </div>
           </div>
           <div className="flex justify-end">
             <Button variant="destructive">{demoStream.status}</Button>
@@ -84,24 +148,35 @@ export default function HomePage() {
           <p className="text-sm text-gray-500">
             {demoTrack.title} – {demoTrack.artist}
           </p>
+          <audio ref={audioRef} src={demoTrack.audioUrl} className="hidden" />
           <div className="flex items-center gap-4 bg-gray-100 p-4 rounded-xl">
             <button
-              onClick={() => setPlaying(!playing)}
+              onClick={() => {
+                const audio = audioRef.current;
+                if (!audio) return;
+                if (isAudioPlaying) {
+                  audio.pause();
+                  setIsAudioPlaying(false);
+                } else {
+                  audio.play();
+                  setIsAudioPlaying(true);
+                }
+              }}
               className="px-4 py-2 rounded-full bg-blue-600 text-white hover:bg-blue-700"
             >
-              {playing ? "⏸ Pause" : "▶ Play"}
+              {isAudioPlaying ? "⏸ Pause" : "▶ Play"}
             </button>
-            <audio
-              src={demoTrack.audioUrl}
-              autoPlay={playing}
-              controls
-              className="hidden"
-              onPlay={() => setPlaying(true)}
-              onPause={() => setPlaying(false)}
+            <input
+              type="range"
+              value={audioProgress}
+              onChange={(e) => {
+                const audio = audioRef.current;
+                if (audio) {
+                  audio.currentTime = (parseFloat(e.target.value) / 100) * audio.duration;
+                }
+              }}
+              className="flex-grow accent-green-500"
             />
-            <span className="text-sm text-gray-600">
-              Status: {playing ? "Playing" : "Stopped"}
-            </span>
           </div>
         </Card>
 
