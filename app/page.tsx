@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import Header from "@/components/Header"; // your Poplir header
-import Footer from "@/components/Footer"; // your Poplir footer
+import Header from "./components/Header"; // your Poplir header
+import Footer from "./components/Footer"; // your Poplir footer
 
 function Button({
   children,
